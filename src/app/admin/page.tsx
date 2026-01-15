@@ -80,7 +80,7 @@ export default function AdminPage() {
       <main className="pt-20 sm:pt-24 p-4 sm:p-6">
         <div className="max-w-7xl mx-auto">
           <div className="mb-6 sm:mb-8">
-            <h1 className="text-xl sm:text-2xl font-bold mb-2">Project Submissions</h1>
+            <h1 className="text-lg sm:text-xl font-bold mb-2">Project Submissions</h1>
             <p className="text-muted-foreground">
               {submissions.length} submission{submissions.length !== 1 ? 's' : ''} received
             </p>

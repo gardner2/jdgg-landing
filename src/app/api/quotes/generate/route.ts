@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ultraSimpleDatabase } from '@/lib/ultra-simple-db';
+import { quotesDb } from '@/lib/quotes-db';
 
 export async function POST(request: NextRequest) {
   try {
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
       : (budgetRange?.range || budgetRange?.label || budgetRange?.value || '') as string;
 
     // Create quote
-    const result = await ultraSimpleDatabase.createQuote({
+    const result = await quotesDb.createQuote({
       email,
       name,
       company,

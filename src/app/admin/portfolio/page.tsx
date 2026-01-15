@@ -217,7 +217,7 @@ export default function PortfolioManagementPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold mb-2">Portfolio Management</h1>
+          <h1 className="text-xl font-bold mb-2">Portfolio Management</h1>
           <p className="text-muted-foreground">Manage your portfolio projects</p>
         </div>
         <Button 

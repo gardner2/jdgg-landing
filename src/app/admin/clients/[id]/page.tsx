@@ -105,7 +105,7 @@ export default function ClientDetailPage() {
             </Button>
           </Link>
           <div>
-            <h1 className="text-2xl font-bold">{client.name}</h1>
+            <h1 className="text-xl font-bold">{client.name}</h1>
             <p className="text-muted-foreground">{client.email}</p>
           </div>
         </div>
@@ -262,7 +262,7 @@ export default function ClientDetailPage() {
           {/* Projects */}
           <div className="modern-card border border-border rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Projects ({projects.length})</h2>
+              <h2 className="text-lg font-semibold">Projects ({projects.length})</h2>
               <Link href={`/admin/projects?client=${client.id}`}>
                 <Button size="sm">
                   <Briefcase className="mr-2 h-4 w-4" />

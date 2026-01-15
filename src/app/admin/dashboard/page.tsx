@@ -21,7 +21,7 @@ export default async function AdminDashboard() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold mb-2">Dashboard</h1>
+        <h1 className="text-xl font-bold mb-2">Dashboard</h1>
         <p className="text-muted-foreground">Welcome back! Here's what's happening.</p>
       </div>
 
@@ -58,7 +58,7 @@ export default async function AdminDashboard() {
         {/* Recent Contacts */}
         <div className="modern-card border border-border rounded-xl p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold">Recent Contacts</h2>
+            <h2 className="text-lg font-semibold">Recent Contacts</h2>
             <Link href="/admin/contacts">
               <Button variant="outline" size="sm">
                 View All <ArrowRight className="ml-2 h-4 w-4" />
@@ -100,7 +100,7 @@ export default async function AdminDashboard() {
         {/* Recent Projects */}
         <div className="modern-card border border-border rounded-xl p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold">Recent Projects</h2>
+            <h2 className="text-lg font-semibold">Recent Projects</h2>
             <Link href="/admin/projects">
               <Button variant="outline" size="sm">
                 View All <ArrowRight className="ml-2 h-4 w-4" />
@@ -141,7 +141,7 @@ export default async function AdminDashboard() {
 
       {/* Quick Actions */}
       <div className="modern-card border border-border rounded-xl p-6">
-        <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
+        <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Link href="/admin/clients">
             <Button variant="outline" className="w-full justify-start">

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ultraSimpleDatabase } from '@/lib/ultra-simple-db';
+import { quotesDb } from '@/lib/quotes-db';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', {
@@ -34,7 +34,7 @@ export async function GET(
     }
 
     // Get quote from database
-    const quote = ultraSimpleDatabase.getQuoteByToken(quoteToken);
+    const quote = await quotesDb.getQuoteByToken(quoteToken);
     
     if (!quote) {
       return NextResponse.json(

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ultraSimpleDatabase } from '@/lib/ultra-simple-db';
+import { quotesDb } from '@/lib/quotes-db';
 
 export async function POST(
   request: NextRequest,
@@ -9,7 +9,7 @@ export async function POST(
     const { token } = await params;
     
     // Get the quote
-    const quote = ultraSimpleDatabase.getQuoteByToken(token);
+    const quote = await quotesDb.getQuoteByToken(token);
     
     if (!quote) {
       return NextResponse.json(
@@ -27,11 +27,11 @@ export async function POST(
     }
     
     // Update quote status to declined
-    const statusResult = ultraSimpleDatabase.updateStatus({ token }, 'declined');
+    const statusResult = await quotesDb.updateStatus({ token }, 'declined');
     
-    if (!statusResult) {
+    if (!statusResult.success) {
       return NextResponse.json(
-        { error: 'Failed to update quote status' },
+        { error: statusResult.error || 'Failed to update quote status' },
         { status: 500 }
       );
     }

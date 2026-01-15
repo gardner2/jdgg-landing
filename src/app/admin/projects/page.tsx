@@ -130,7 +130,7 @@ export default function ProjectsPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold mb-2">Projects</h1>
+          <h1 className="text-xl font-bold mb-2">Projects</h1>
           <p className="text-muted-foreground">{projects.length} total projects</p>
         </div>
         <Button onClick={() => setShowDialog(true)}>
@@ -169,7 +169,7 @@ export default function ProjectsPage() {
         {/* Quoted Column */}
         <div>
           <div className="mb-4">
-            <h2 className="font-semibold text-lg">Quoted ({projectsByStatus.quoted.length})</h2>
+            <h2 className="font-semibold text-base">Quoted ({projectsByStatus.quoted.length})</h2>
             <p className="text-sm text-muted-foreground">Awaiting approval</p>
           </div>
           <div className="space-y-3">
@@ -197,7 +197,7 @@ export default function ProjectsPage() {
         {/* Active Column */}
         <div>
           <div className="mb-4">
-            <h2 className="font-semibold text-lg">Active ({projectsByStatus.active.length})</h2>
+            <h2 className="font-semibold text-base">Active ({projectsByStatus.active.length})</h2>
             <p className="text-sm text-muted-foreground">In progress</p>
           </div>
           <div className="space-y-3">
@@ -225,7 +225,7 @@ export default function ProjectsPage() {
         {/* Completed Column */}
         <div>
           <div className="mb-4">
-            <h2 className="font-semibold text-lg">Completed ({projectsByStatus.completed.length})</h2>
+            <h2 className="font-semibold text-base">Completed ({projectsByStatus.completed.length})</h2>
             <p className="text-sm text-muted-foreground">Delivered</p>
           </div>
           <div className="space-y-3">

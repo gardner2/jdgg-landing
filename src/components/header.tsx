@@ -15,6 +15,7 @@ export function Header({ onBookCall }: HeaderProps) {
   const navItems = [
     { label: 'How it Works', href: '#how' },
     { label: 'Work', href: '#work' },
+    { label: 'Blog', href: '/blog' },
     { label: 'Pricing', href: '#pricing' },
     { label: 'FAQ', href: '#faq' },
     { label: 'Contact', href: '#contact' },

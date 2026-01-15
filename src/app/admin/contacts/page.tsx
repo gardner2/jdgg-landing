@@ -92,7 +92,7 @@ export default function ContactsPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold mb-2">Contact Submissions</h1>
+        <h1 className="text-xl font-bold mb-2">Contact Submissions</h1>
         <p className="text-muted-foreground">{contacts.length} total submissions</p>
       </div>
 

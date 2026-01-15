@@ -192,6 +192,58 @@ CREATE TABLE IF NOT EXISTS portal_project_submissions (
   status TEXT DEFAULT 'new'
 );
 
+-- Blog posts
+CREATE TABLE IF NOT EXISTS blog_posts (
+  id SERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  excerpt TEXT,
+  content TEXT NOT NULL,
+  featured_image TEXT,
+  author TEXT DEFAULT 'JGDD',
+  category TEXT,
+  tags TEXT,
+  published BOOLEAN DEFAULT FALSE,
+  published_at TIMESTAMPTZ,
+  meta_title TEXT,
+  meta_description TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Quotes
+CREATE TABLE IF NOT EXISTS quotes (
+  id SERIAL PRIMARY KEY,
+  client_email TEXT NOT NULL,
+  client_name TEXT,
+  client_company TEXT,
+  client_phone TEXT,
+  project_type TEXT NOT NULL,
+  scope_features TEXT,
+  timeline TEXT,
+  budget_range TEXT,
+  requirements TEXT,
+  quote_amount INTEGER NOT NULL,
+  quote_token TEXT UNIQUE NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  expires_at TIMESTAMPTZ,
+  ai_analysis TEXT,
+  status TEXT DEFAULT 'pending_review',
+  admin_notes TEXT,
+  final_amount INTEGER,
+  sent_to_client BOOLEAN DEFAULT FALSE
+);
+
+-- Create index for faster quote queries
+CREATE INDEX IF NOT EXISTS idx_quotes_token ON quotes(quote_token);
+CREATE INDEX IF NOT EXISTS idx_quotes_status ON quotes(status);
+CREATE INDEX IF NOT EXISTS idx_quotes_email ON quotes(client_email);
+
+-- Create index for faster blog queries
+CREATE INDEX IF NOT EXISTS idx_blog_posts_slug ON blog_posts(slug);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_published ON blog_posts(published, published_at);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_category ON blog_posts(category);
+
 -- Seed admin user (update email/name as needed)
 INSERT INTO admin_users (email, name)
 VALUES ('jgdesigndevelopment@gmail.com', 'JGDD Admin')

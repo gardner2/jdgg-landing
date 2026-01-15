@@ -15,30 +15,69 @@ const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
 // Simple email function - configure with your SMTP or use Resend API
 export async function sendEmail({ to, subject, html, text }: EmailOptions) {
-  // For development, just log the email
-  if (process.env.NODE_ENV === 'development') {
-    console.log('\n📧 EMAIL (Development Mode):');
-    console.log('To:', to);
-    console.log('Subject:', subject);
-    console.log('Content:', text || html);
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const forceProduction = process.env.FORCE_EMAIL_SEND === 'true';
+  
+  // Log email attempt
+  console.log('\n📧 EMAIL SEND ATTEMPT:');
+  console.log('Environment:', process.env.NODE_ENV);
+  console.log('To:', to);
+  console.log('Subject:', subject);
+  console.log('RESEND_API_KEY set:', !!RESEND_API_KEY);
+  console.log('FROM_EMAIL:', FROM_EMAIL);
+  
+  // For development, log the email (unless forced to send)
+  if (isDevelopment && !forceProduction) {
+    console.log('\n⚠️  DEVELOPMENT MODE - Email logged to console only');
+    console.log('To send real emails in development, set FORCE_EMAIL_SEND=true');
+    console.log('\n📧 EMAIL CONTENT:');
+    console.log('---');
+    if (text) {
+      console.log(text);
+    } else {
+      // Extract text from HTML for better readability
+      const textContent = html.replace(/<[^>]*>/g, '').replace(/\n\s*\n/g, '\n');
+      console.log(textContent);
+    }
     console.log('---\n');
-    return { success: true };
+    return { success: true, error: null, devMode: true };
   }
 
   if (!resend) {
-    console.error('RESEND_API_KEY is not set. Email not sent.');
-    return { success: false };
+    const error = 'RESEND_API_KEY is not set. Email not sent.';
+    console.error('❌', error);
+    console.error('Please set RESEND_API_KEY in your environment variables.');
+    return { success: false, error };
   }
 
-  await resend.emails.send({
-    from: FROM_EMAIL,
-    to,
-    subject,
-    html,
-    text,
-  });
-
-  return { success: true };
+  try {
+    console.log('Sending email via Resend...');
+    const result = await resend.emails.send({
+      from: FROM_EMAIL,
+      to,
+      subject,
+      html,
+      text,
+    });
+    
+    console.log('✅ Email sent successfully!');
+    console.log('Resend response:', JSON.stringify(result, null, 2));
+    return { success: true, error: null, data: result };
+  } catch (error: any) {
+    const errorMessage = error?.message || 'Failed to send email';
+    console.error('❌ Email send error:', errorMessage);
+    console.error('Full error:', error);
+    
+    // Provide helpful error messages
+    if (errorMessage.includes('domain') || errorMessage.includes('verify')) {
+      console.error('💡 TIP: Make sure your FROM_EMAIL domain is verified in Resend dashboard');
+    }
+    if (errorMessage.includes('API key') || errorMessage.includes('unauthorized')) {
+      console.error('💡 TIP: Check that your RESEND_API_KEY is correct');
+    }
+    
+    return { success: false, error: errorMessage };
+  }
 }
 
 // Send magic link for admin login

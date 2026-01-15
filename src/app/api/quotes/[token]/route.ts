@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ultraSimpleDatabase } from '@/lib/ultra-simple-db';
+import { quotesDb } from '@/lib/quotes-db';
 
 export async function GET(
   request: NextRequest,
@@ -8,7 +8,7 @@ export async function GET(
   try {
     const { token } = await params;
     
-    const quote = ultraSimpleDatabase.getQuoteByToken(token);
+    const quote = await quotesDb.getQuoteByToken(token);
     
     if (!quote) {
       return NextResponse.json(

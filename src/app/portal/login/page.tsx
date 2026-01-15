@@ -10,11 +10,13 @@ export default function ClientLoginPage() {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
+  const [devLink, setDevLink] = useState('');
 
   const handleSendMagicLink = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setDevLink('');
 
     try {
       const response = await fetch('/api/auth/client/send-magic-link', {
@@ -25,6 +27,13 @@ export default function ClientLoginPage() {
 
       if (!response.ok) {
         throw new Error('Failed to send magic link');
+      }
+
+      const data = await response.json();
+      
+      // In development, show the link directly
+      if (data.devLink) {
+        setDevLink(data.devLink);
       }
 
       setSent(true);
@@ -56,7 +65,33 @@ export default function ClientLoginPage() {
               <p className="text-muted-foreground mb-4">
                 We sent a magic link to <strong>{email}</strong>
               </p>
-              <p className="text-sm text-muted-foreground">
+              
+              {/* Development mode - show link directly */}
+              {devLink && (
+                <div className="mt-6 p-4 bg-muted rounded-lg border border-border">
+                  <p className="text-sm font-semibold mb-2 text-foreground">Development Mode</p>
+                  <p className="text-xs text-muted-foreground mb-3">
+                    In development, emails are logged to console. Click the link below:
+                  </p>
+                  <a
+                    href={devLink}
+                    className="inline-block px-4 py-2 bg-foreground text-background rounded-lg text-sm font-medium hover:bg-foreground/90 transition-colors break-all mb-2"
+                  >
+                    {devLink}
+                  </a>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(devLink);
+                      alert('Link copied to clipboard!');
+                    }}
+                    className="text-xs text-muted-foreground hover:text-foreground underline"
+                  >
+                    Copy link
+                  </button>
+                </div>
+              )}
+              
+              <p className="text-sm text-muted-foreground mt-4">
                 Click the link in the email to access your portal. The link expires in 15 minutes.
               </p>
             </div>

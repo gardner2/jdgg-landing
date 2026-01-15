@@ -5,6 +5,7 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { Portfolio } from '@/components/portfolio';
 import { About } from '@/components/about';
 import { Pricing } from '@/components/pricing';
+import { Blog } from '@/components/blog';
 import { trackEvent } from '@/lib/analytics';
 
 export default function Home() {
@@ -47,6 +48,7 @@ export default function Home() {
               <a href="#services" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">Services</a>
               <a href="#pricing" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">Pricing</a>
               <a href="#portfolio" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">Work</a>
+              <a href="/blog" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">Blog</a>
               <a href="#about" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">About</a>
               <a href="#contact" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300">Contact</a>
             </nav>
@@ -464,6 +466,9 @@ export default function Home() {
         {/* About Section */}
         <About />
 
+        {/* Blog Section */}
+        <Blog />
+
         {/* Contact Section */}
         <section id="contact" className="py-20 sm:py-32 px-4 sm:px-6 lg:px-8 bg-foreground text-background relative overflow-hidden">
           {/* Background Elements */}
@@ -535,6 +540,7 @@ export default function Home() {
                 <a href="#process" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Process</a>
                 <a href="#services" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Services</a>
                 <a href="#portfolio" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Work</a>
+                <a href="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Blog</a>
                 <a href="#about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">About</a>
                 <a href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Privacy</a>
                 <a href="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Terms</a>

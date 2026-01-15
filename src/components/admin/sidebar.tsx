@@ -10,6 +10,7 @@ import {
   Mail, 
   FileText,
   Receipt,
+  BookOpen,
   LogOut,
   Menu,
   X
@@ -19,6 +20,7 @@ import { useState } from 'react';
 const navigation = [
   { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
   { name: 'Portfolio', href: '/admin/portfolio', icon: FolderOpen },
+  { name: 'Blog', href: '/admin/blog', icon: BookOpen },
   { name: 'Clients', href: '/admin/clients', icon: Users },
   { name: 'Projects', href: '/admin/projects', icon: Briefcase },
   { name: 'Quotes', href: '/admin/quotes', icon: Receipt },

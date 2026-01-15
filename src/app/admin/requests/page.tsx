@@ -36,7 +36,7 @@ export default function RequestsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold mb-2">Client Requests</h1>
+        <h1 className="text-xl font-bold mb-2">Client Requests</h1>
         <p className="text-muted-foreground">Manage client support requests and change requests</p>
       </div>
 

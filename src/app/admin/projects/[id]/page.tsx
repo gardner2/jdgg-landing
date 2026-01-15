@@ -133,7 +133,7 @@ export default function ProjectDetailPage() {
             </Button>
           </Link>
           <div>
-            <h1 className="text-2xl font-bold">{project.title}</h1>
+            <h1 className="text-xl font-bold">{project.title}</h1>
             <p className="text-muted-foreground">
               {project.client_name} • {project.client_email}
             </p>
@@ -282,7 +282,7 @@ export default function ProjectDetailPage() {
           {/* Timeline Updates */}
           <div className="modern-card border border-border rounded-xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Timeline Updates</h2>
+              <h2 className="text-lg font-semibold">Timeline Updates</h2>
               <Button onClick={() => setShowUpdateDialog(true)} size="sm">
                 <Plus className="mr-2 h-4 w-4" />
                 Add Update

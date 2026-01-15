@@ -446,6 +446,168 @@ export const crmDb = {
       newContacts: newContacts?.count ?? 0,
       pendingRequests: pendingRequests?.count ?? 0
     };
+  },
+
+  // Blog Posts
+  getAllBlogPosts: async (publishedOnly: boolean = false) => {
+    if (publishedOnly) {
+      return query(`
+        SELECT * FROM blog_posts 
+        WHERE published = TRUE AND (published_at IS NULL OR published_at <= NOW())
+        ORDER BY published_at DESC, created_at DESC
+      `);
+    }
+    return query('SELECT * FROM blog_posts ORDER BY created_at DESC');
+  },
+
+  getBlogPostBySlug: async (slug: string) => {
+    const rows = await query(
+      'SELECT * FROM blog_posts WHERE slug = $1 AND published = TRUE LIMIT 1',
+      [slug]
+    );
+    return rows[0] ?? null;
+  },
+
+  getBlogPost: async (id: number) => {
+    const rows = await query('SELECT * FROM blog_posts WHERE id = $1 LIMIT 1', [id]);
+    return rows[0] ?? null;
+  },
+
+  getRecentBlogPosts: async (limit: number = 3) => {
+    return query(`
+      SELECT * FROM blog_posts 
+      WHERE published = TRUE AND (published_at IS NULL OR published_at <= NOW())
+      ORDER BY published_at DESC, created_at DESC
+      LIMIT $1
+    `, [limit]);
+  },
+
+  getBlogPostsByCategory: async (category: string) => {
+    return query(`
+      SELECT * FROM blog_posts 
+      WHERE category = $1 AND published = TRUE AND (published_at IS NULL OR published_at <= NOW())
+      ORDER BY published_at DESC, created_at DESC
+    `, [category]);
+  },
+
+  createBlogPost: async (data: {
+    title: string;
+    slug: string;
+    excerpt?: string;
+    content: string;
+    featured_image?: string;
+    author?: string;
+    category?: string;
+    tags?: string;
+    published?: boolean;
+    published_at?: string;
+    meta_title?: string;
+    meta_description?: string;
+  }): Promise<RunResult> => {
+    const rows = await query<{ id: number }>(
+      `INSERT INTO blog_posts (
+        title, slug, excerpt, content, featured_image, author, category, tags,
+        published, published_at, meta_title, meta_description
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+      RETURNING id`,
+      [
+        data.title,
+        data.slug,
+        data.excerpt || null,
+        data.content,
+        data.featured_image || null,
+        data.author || 'JGDD',
+        data.category || null,
+        data.tags || null,
+        data.published ? true : false,
+        data.published_at || null,
+        data.meta_title || null,
+        data.meta_description || null
+      ]
+    );
+    return { lastInsertRowid: rows[0].id };
+  },
+
+  updateBlogPost: async (id: number, data: {
+    title?: string;
+    slug?: string;
+    excerpt?: string;
+    content?: string;
+    featured_image?: string | null;
+    author?: string;
+    category?: string;
+    tags?: string;
+    published?: boolean;
+    published_at?: string | null;
+    meta_title?: string;
+    meta_description?: string;
+  }): Promise<UpdateResult> => {
+    const updates: string[] = [];
+    const values: unknown[] = [];
+    let paramIndex = 1;
+
+    if (data.title !== undefined) {
+      updates.push(`title = $${paramIndex++}`);
+      values.push(data.title);
+    }
+    if (data.slug !== undefined) {
+      updates.push(`slug = $${paramIndex++}`);
+      values.push(data.slug);
+    }
+    if (data.excerpt !== undefined) {
+      updates.push(`excerpt = $${paramIndex++}`);
+      values.push(data.excerpt);
+    }
+    if (data.content !== undefined) {
+      updates.push(`content = $${paramIndex++}`);
+      values.push(data.content);
+    }
+    if (data.featured_image !== undefined) {
+      updates.push(`featured_image = $${paramIndex++}`);
+      values.push(data.featured_image);
+    }
+    if (data.author !== undefined) {
+      updates.push(`author = $${paramIndex++}`);
+      values.push(data.author);
+    }
+    if (data.category !== undefined) {
+      updates.push(`category = $${paramIndex++}`);
+      values.push(data.category);
+    }
+    if (data.tags !== undefined) {
+      updates.push(`tags = $${paramIndex++}`);
+      values.push(data.tags);
+    }
+    if (data.published !== undefined) {
+      updates.push(`published = $${paramIndex++}`);
+      values.push(data.published);
+    }
+    if (data.published_at !== undefined) {
+      updates.push(`published_at = $${paramIndex++}`);
+      values.push(data.published_at);
+    }
+    if (data.meta_title !== undefined) {
+      updates.push(`meta_title = $${paramIndex++}`);
+      values.push(data.meta_title);
+    }
+    if (data.meta_description !== undefined) {
+      updates.push(`meta_description = $${paramIndex++}`);
+      values.push(data.meta_description);
+    }
+
+    updates.push(`updated_at = NOW()`);
+    values.push(id);
+
+    await query(
+      `UPDATE blog_posts SET ${updates.join(', ')} WHERE id = $${paramIndex}`,
+      values
+    );
+    return { changes: 1 };
+  },
+
+  deleteBlogPost: async (id: number): Promise<UpdateResult> => {
+    await query('DELETE FROM blog_posts WHERE id = $1', [id]);
+    return { changes: 1 };
   }
 };
 
